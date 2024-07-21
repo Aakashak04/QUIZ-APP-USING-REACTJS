@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import Question from './question';
+import Login from './Login';  // Import the Login component
 
-const questions = [
+const questions = [ 
   {
     "question": "1. What is Java?",
     "type": "radio",
@@ -119,7 +120,7 @@ const questions = [
     "options": ["The variable cannot be changed.", "The variable is thread-safe.", "The variable is private.", "The variable is volatile."],
     "answer": "The variable cannot be changed."
   }
-];
+ ];
 
 const Quiz = () => {
   const questionsPerPage = 5;
@@ -127,6 +128,7 @@ const Quiz = () => {
   const [score, setScore] = useState(null);
   const [userAnswers, setUserAnswers] = useState(Array(questions.length).fill(''));
   const [timeLeft, setTimeLeft] = useState(300); // 300 seconds = 5 minutes
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleSubmit = useCallback(() => {
     let newScore = 0;
@@ -193,6 +195,10 @@ const Quiz = () => {
     newAnswers[index] = answer;
     setUserAnswers(newAnswers);
   };
+
+  if (!isLoggedIn) {
+    return <Login onLogin={setIsLoggedIn} />;
+  }
 
   return (
     <div id="quiz-container">
